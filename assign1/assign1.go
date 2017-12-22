@@ -3,7 +3,7 @@ Count the number of inverions in a given sequence
 Input: [3, 2, 5, 6, 20]
 Output: 1
 */
-package main
+package assign1
 
 // BruteForceCount counts the number of inversion by brute force
 func BruteForceCount(seq []int) int {
