@@ -1,6 +1,7 @@
 package assign2
 
 import (
+	"math/rand"
 	"reflect"
 	"sort"
 	"testing"
@@ -15,5 +16,19 @@ func TestQuickSort(t *testing.T) {
 	sort.Ints(seqBak)
 	if !reflect.DeepEqual(seq, seqBak) {
 		t.Error("Expected ", seqBak, ", got ", seq)
+	}
+}
+
+func TestQuickSortLong(t *testing.T) {
+	longSeq := make([]int, 50)
+	longSeqBak := make([]int, 50)
+	for i := range longSeq {
+		longSeq[i] = rand.Intn(100)
+	}
+	copy(longSeqBak, longSeq)
+	QuickSort(longSeq)
+	sort.Ints(longSeqBak)
+	if !reflect.DeepEqual(longSeq, longSeqBak) {
+		t.Error("Expected ", longSeqBak, ", got ", longSeq)
 	}
 }
