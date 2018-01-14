@@ -6,7 +6,8 @@ import (
 	"strconv"
 )
 
-func readIntArrayFromText(src string) []int {
+// ReadIntArrayFromText read the array from a txt file
+func ReadIntArrayFromText(src string) []int {
 	var arr []int
 
 	f, err := os.Open(src)
