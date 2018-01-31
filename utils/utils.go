@@ -54,8 +54,12 @@ func ReadAdjListFromText(src string) [][]int {
 
 	arr := make([][]int, len(data))
 	for i, row := range data {
+		vertex, err := strconv.Atoi(row[0])
+		if err != nil || vertex != i+1 {
+			panic(err)
+		}
 		// ignore '\n' at each row
-		row = row[:len(row)-1]
+		row = row[1 : len(row)-1]
 		tmp := make([]int, len(row))
 		for j, num := range row {
 			tmp[j], err = strconv.Atoi(num)
