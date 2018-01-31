@@ -1,3 +1,3 @@
 .PHONY: clean
 clean:
-	rm -f */data/
+	rm -f */data/ */*.exe
