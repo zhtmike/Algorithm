@@ -2,14 +2,13 @@ package utils
 
 import (
 	"encoding/csv"
+	"io"
 	"os"
 	"strconv"
 )
 
 // ReadIntArrayFromText read the array from a txt file
 func ReadIntArrayFromText(src string) []int {
-	var arr []int
-
 	f, err := os.Open(src)
 	if err != nil {
 		panic(err)
@@ -21,12 +20,50 @@ func ReadIntArrayFromText(src string) []int {
 		panic(err)
 	}
 
-	for _, v := range data {
+	arr := make([]int, len(data))
+	for i, v := range data {
 		x, err := strconv.Atoi(v[0])
 		if err != nil {
 			panic(err)
 		}
-		arr = append(arr, x)
+		arr[i] = x
+	}
+	return arr
+}
+
+// ReadAdjListFromText read the adjacency list from a txt file
+func ReadAdjListFromText(src string) [][]int {
+	f, err := os.Open(src)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	reader := csv.NewReader(f)
+	// Using tab as delimiter
+	reader.Comma = '\t'
+	// Ignore Unequal number of elements per each row
+	reader.FieldsPerRecord = -1
+	// Read all data
+	data, err := reader.ReadAll()
+	if err != nil {
+		if err != io.EOF {
+			panic(err)
+		}
+	}
+
+	arr := make([][]int, len(data))
+	for i, row := range data {
+		// ignore '\n' at each row
+		row = row[:len(row)-1]
+		tmp := make([]int, len(row))
+		for j, num := range row {
+			tmp[j], err = strconv.Atoi(num)
+			if err != nil {
+				panic(err)
+			}
+		}
+		arr[i] = tmp
 	}
 	return arr
 }
