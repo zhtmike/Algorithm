@@ -21,7 +21,7 @@ func GetMinCut(adjlist [][]int) int {
 	for i := 0; i < repeats; i++ {
 		go func(i int) {
 			trials[i] = copyAndCut(adjlist)
-			wg.Done()
+			defer wg.Done()
 		}(i)
 	}
 	wg.Wait()
