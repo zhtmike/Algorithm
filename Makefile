@@ -1,6 +1,12 @@
+all: build
+
+.PHONY: build
+build:
+	go build ./...
+
 .PHONY: clean
 clean:
-	rm -rf */data/ */*.exe
+	go clean ./...
 
 .PHONY: test
 test:
