@@ -4,22 +4,29 @@ Package assign3 find the min cut in a graph
 package assign3
 
 import (
+	"sync"
 	"math"
 	"math/rand"
 )
 
 // GetMinCut calculates the minimum cuts of a graph, which is not guaranteed to be the minimum
 func GetMinCut(adjlist [][]int) int {
-	var trials []int
-	for i := 0; i < int(math.Log(float64(len(adjlist)))*math.Pow(float64(len(adjlist)), 2)); i++ {
-		tmp := make([][]int, len(adjlist))
-		for j := range adjlist {
-			tmpSlice := make([]int, len(adjlist[j]))
-			copy(tmpSlice, adjlist[j])
-			tmp[j] = tmpSlice
-		}
-		trials = append(trials, getCut(tmp))
+	// Using concurrent threads, ref: https://stackoverflow.com/questions/24238820/parallel-for-loop
+	var wg sync.WaitGroup
+
+	repeats := int(math.Log(float64(len(adjlist)))*math.Pow(float64(len(adjlist)), 2))
+	trials := make([]int, repeats)
+	wg.Add(repeats)
+
+	for i := 0; i < repeats; i++ {
+		go func(i int) {
+			trials[i] = copyAndCut(adjlist)
+			wg.Done()
+		}(i)
 	}
+	wg.Wait()
+
+	// get the minimum of trials
 	ans := int(1E9)
 	for _, trial := range trials {
 		if trial < ans {
@@ -72,4 +79,14 @@ func getValidVertices(adjlist [][]int) []int {
 		}
 	}
 	return validv
+}
+
+func copyAndCut(adjlist [][]int) int {
+	tmp := make([][]int, len(adjlist))
+	for j := range adjlist {
+		tmpSlice := make([]int, len(adjlist[j]))
+		copy(tmpSlice, adjlist[j])
+		tmp[j] = tmpSlice
+	}
+	return getCut(tmp)
 }
