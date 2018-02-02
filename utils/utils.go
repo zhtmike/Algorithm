@@ -32,6 +32,7 @@ func ReadIntArrayFromText(src string) []int {
 }
 
 // ReadAdjListFromText read the adjacency list from a txt file
+// Index will be changed from one-based numbering to zero-based numbering
 func ReadAdjListFromText(src string) [][]int {
 	f, err := os.Open(src)
 	if err != nil {
@@ -55,7 +56,9 @@ func ReadAdjListFromText(src string) [][]int {
 	arr := make([][]int, len(data))
 	for i, row := range data {
 		vertex, err := strconv.Atoi(row[0])
-		if err != nil || vertex != i+1 {
+		// Change to zero-based numbering
+		vertex--
+		if err != nil || vertex != i {
 			panic(err)
 		}
 		// ignore '\n' at each row
@@ -63,6 +66,8 @@ func ReadAdjListFromText(src string) [][]int {
 		tmp := make([]int, len(row))
 		for j, num := range row {
 			tmp[j], err = strconv.Atoi(num)
+			// Change to zero-based numbering
+			tmp[j]--
 			if err != nil {
 				panic(err)
 			}

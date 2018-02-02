@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	numcpu := flag.Int("cpu", runtime.NumCPU(), "Number of CPU")
+	numcpu := flag.Int("n", runtime.NumCPU(), "Number of processes")
 	flag.Parse()
 	runtime.GOMAXPROCS(*numcpu)
 	arr := utils.ReadAdjListFromText("data/kargerMinCut.txt")
