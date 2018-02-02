@@ -1,7 +1,6 @@
 package stack
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -22,7 +21,6 @@ func TestPop(t *testing.T) {
 	stack.Push(0)
 	stack.Push(1)
 	v := stack.Pop()
-	fmt.Println(v)
 	if v != 1 {
 		t.Error("Expected 1 got ", v)
 	}
