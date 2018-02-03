@@ -106,11 +106,11 @@ func ReadEdgeListFromText(src string) [][]int {
 		// Change to zero-based numbering
 		vertex--
 		outvertex, err := strconv.Atoi(row[1])
-		// Change to zero-based numbering
-		outvertex--
 		if err != nil {
 			panic(err)
 		}
+		// Change to zero-based numbering
+		outvertex--
 		tmpArr[vertex] = append(tmpArr[vertex], outvertex)
 	}
 
