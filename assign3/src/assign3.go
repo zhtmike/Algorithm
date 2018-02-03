@@ -1,5 +1,5 @@
 /*
-Package assign3 find the min cut in a graph
+Package assign3 find the min cut in a graph by Karger's algorithm
 */
 package assign3
 
