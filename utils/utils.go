@@ -76,3 +76,56 @@ func ReadAdjListFromText(src string) [][]int {
 	}
 	return arr
 }
+
+// ReadEdgeListFromText read the edge list from a txt file
+func ReadEdgeListFromText(src string) [][]int {
+	f, err := os.Open(src)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	reader := csv.NewReader(f)
+	// Using space as delimiter
+	reader.Comma = ' '
+	// Read all data
+	data, err := reader.ReadAll()
+	if err != nil {
+		if err != io.EOF {
+			panic(err)
+		}
+	}
+
+	// Using dict to store the edges temporary
+	tmpArr := make(map[int][]int)
+	for _, row := range data {
+		vertex, err := strconv.Atoi(row[0])
+		if err != nil {
+			panic(err)
+		}
+		// Change to zero-based numbering
+		vertex--
+		outvertex, err := strconv.Atoi(row[1])
+		// Change to zero-based numbering
+		outvertex--
+		if err != nil {
+			panic(err)
+		}
+		tmpArr[vertex] = append(tmpArr[vertex], outvertex)
+	}
+
+	// Find the maximum edge number
+	maximum := 0
+	for key := range tmpArr {
+		if key > maximum {
+			maximum = key
+		}
+	}
+
+	// Convert map to nested list
+	arr := make([][]int, maximum+1)
+	for key, value := range tmpArr {
+		arr[key] = value
+	}
+	return arr
+}
