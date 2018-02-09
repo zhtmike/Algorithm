@@ -9,4 +9,5 @@ Assignemnts implementations of Cousera course (algorihtms) by using Golang.
 
 ## Instructions
 
-1. For each assignments, run `go build` and then execute the corresponding binary files.
+1. Export `GOPATH` to the current path
+2. Run `make install`

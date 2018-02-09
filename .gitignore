@@ -1,3 +1,5 @@
 .*
 *.exe
 data/
+bin/
+pkg

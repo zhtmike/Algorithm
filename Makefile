@@ -1,8 +1,8 @@
-all: build
+all: install
 
-.PHONY: build
-build:
-	go build ./...
+.PHONY: install
+install:
+	go install ./...
 
 .PHONY: clean
 clean:
