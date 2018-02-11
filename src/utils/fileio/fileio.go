@@ -2,9 +2,10 @@ package fileio
 
 import (
 	"encoding/csv"
-	"io"
 	"os"
 	"strconv"
+	"strings"
+	"utils/graph"
 )
 
 // ReadIntArrayFromText read the array from a txt file
@@ -48,9 +49,7 @@ func ReadAdjListFromText(src string) [][]int {
 	// Read all data
 	data, err := reader.ReadAll()
 	if err != nil {
-		if err != io.EOF {
-			panic(err)
-		}
+		panic(err)
 	}
 
 	arr := make([][]int, len(data))
@@ -91,9 +90,7 @@ func ReadEdgeListFromText(src string) [][]int {
 	// Read all data
 	data, err := reader.ReadAll()
 	if err != nil {
-		if err != io.EOF {
-			panic(err)
-		}
+		panic(err)
 	}
 
 	// Using dict to store the edges temporary
@@ -126,6 +123,59 @@ func ReadEdgeListFromText(src string) [][]int {
 	arr := make([][]int, maximum+1)
 	for key, value := range tmpArr {
 		arr[key] = value
+	}
+	return arr
+}
+
+// ReadWeightedAdjListFromText read the weighted adjacency list from a txt file
+// Index will be changed from one-based numbering to zero-based numbering
+func ReadWeightedAdjListFromText(src string) graph.WAdjlist {
+	f, err := os.Open(src)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	reader := csv.NewReader(f)
+	// Using tab as delimiter
+	reader.Comma = '\t'
+	// Ignore Unequal number of elements per each row
+	reader.FieldsPerRecord = -1
+	// Read all data
+	data, err := reader.ReadAll()
+	if err != nil {
+		panic(err)
+	}
+
+	arr := make(graph.WAdjlist, len(data))
+	for i, row := range data {
+		vertex, err := strconv.Atoi(row[0])
+		// Change to zero-based numbering
+		vertex--
+		if err != nil || vertex != i {
+			panic(err)
+		}
+		// ignore '\n' at each row
+		row = row[1 : len(row)-1]
+		tmp := make([]graph.WEdge, len(row))
+		for j, num := range row {
+			pairs := strings.Split(num, ",")
+
+			ind, err := strconv.Atoi(pairs[0])
+			// Change to zero-based numbering
+			ind--
+			if err != nil {
+				panic(err)
+			}
+
+			weight, err := strconv.Atoi(pairs[1])
+			if err != nil {
+				panic(err)
+			}
+
+			tmp[j] = graph.WEdge{ind, weight}
+		}
+		arr[i] = tmp
 	}
 	return arr
 }
