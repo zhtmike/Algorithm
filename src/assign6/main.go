@@ -7,16 +7,20 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		panic("Missing input file.")
+	if len(os.Args) < 3 {
+		panic("Missing input files.")
 	}
-
-	// Question2 2
+	// Question 1
 	arr := fileio.ReadIntArrayFromText(os.Args[1])
-	result := MedianMaintenance(arr)
+	result1 := TwoSum(arr)
+	fmt.Println(result1)
+
+	// Question 2
+	arr = fileio.ReadIntArrayFromText(os.Args[2])
+	result2 := MedianMaintenance(arr)
 	sum := 0
-	for _, val := range result {
+	for _, val := range result2 {
 		sum += val
 	}
-	fmt.Println(sum % len(result))
+	fmt.Println(sum % len(result2))
 }
