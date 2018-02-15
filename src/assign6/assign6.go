@@ -3,10 +3,18 @@ package main
 import (
 	"container/heap"
 	"fmt"
+	"sync"
 )
 
 // TwoSum compute the number of elements which their sum equals to x, where -10000 <= x <= 10000
-func TwoSum(arr []int) int {
+func TwoSum(arr []int, threads int) int {
+	const start = -10000
+	const end = 10000
+
+	var wg sync.WaitGroup
+	wg.Add(threads)
+	mutex := &sync.Mutex{}
+
 	// convert arr to hash table
 	hashTable := make(map[int]int)
 	for i, val := range arr {
@@ -14,15 +22,24 @@ func TwoSum(arr []int) int {
 	}
 
 	sum := 0
-	for i := -10000; i <= 10000; i++ {
-		for _, num := range arr {
-			j, ok := hashTable[i-num]
-			if ok && j != i {
-				sum++
+	n := (end - start) / float32(threads)
+	for k := 0; k < threads; k++ {
+		go func(k int) {
+			defer wg.Done()
+			for i := int(n*float32(k)) + start; i <= int(n*float32(k+1))+start; i++ {
+				for _, num := range arr {
+					j, ok := hashTable[i-num]
+					if ok && j != i {
+						mutex.Lock()
+						sum++
+						mutex.Unlock()
+					}
+				}
+				fmt.Println(i)
 			}
-		}
-		fmt.Println(i)
+		}(k)
 	}
+	wg.Wait()
 	return sum
 }
 

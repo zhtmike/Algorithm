@@ -1,8 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
+	"runtime"
 	"utils/fileio"
 )
 
@@ -10,9 +12,13 @@ func main() {
 	if len(os.Args) < 3 {
 		panic("Missing input files.")
 	}
+	numcpu := flag.Int("n", runtime.NumCPU(), "Number of processes")
+	flag.Parse()
+	runtime.GOMAXPROCS(*numcpu)
+
 	// Question 1
 	arr := fileio.ReadIntArrayFromText(os.Args[1])
-	result1 := TwoSum(arr)
+	result1 := TwoSum(arr, 2)
 	fmt.Println(result1)
 
 	// Question 2
