@@ -11,6 +11,7 @@ func TwoSum(arr []int, threads int) int {
 	const start = -10000
 	const end = 10000
 
+	// Init waitgroup and mutex
 	var wg sync.WaitGroup
 	wg.Add(threads)
 	mutex := &sync.Mutex{}
@@ -22,10 +23,13 @@ func TwoSum(arr []int, threads int) int {
 	}
 
 	sum := 0
+	// number of task per each thread
 	n := (end - start) / float32(threads)
 	for k := 0; k < threads; k++ {
+		// each thread handle n numbers
 		go func(k int) {
 			defer wg.Done()
+
 			for i := int(n*float32(k)) + start; i <= int(n*float32(k+1))+start; i++ {
 				for _, num := range arr {
 					j, ok := hashTable[i-num]
