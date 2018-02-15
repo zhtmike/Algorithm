@@ -18,7 +18,7 @@ func main() {
 
 	// Question 1
 	arr := fileio.ReadIntArrayFromText(os.Args[1])
-	result1 := TwoSum(arr, 2)
+	result1 := TwoSum(arr, *numcpu)
 	fmt.Println(result1)
 
 	// Question 2
