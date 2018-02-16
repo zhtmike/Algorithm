@@ -2,7 +2,6 @@ package main
 
 import (
 	"container/heap"
-	"fmt"
 	"sync"
 )
 
@@ -26,7 +25,6 @@ func TwoSum(arr []int, threads int) int {
 	// number of task per each thread
 	n := (end - start) / float32(threads)
 	for k := 0; k < threads; k++ {
-		fmt.Println(k)
 		// each thread handle n numbers
 		go func(k int) {
 			defer wg.Done()
@@ -37,7 +35,7 @@ func TwoSum(arr []int, threads int) int {
 						mutex.Lock()
 						sum++
 						mutex.Unlock()
-						continue
+						break
 					}
 				}
 			}
