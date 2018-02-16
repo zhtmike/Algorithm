@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 	"runtime"
@@ -12,10 +11,8 @@ func main() {
 	if len(os.Args) < 2 {
 		panic("Missing input file.")
 	}
-	numcpu := flag.Int("n", runtime.NumCPU(), "Number of processes")
-	flag.Parse()
-	runtime.GOMAXPROCS(*numcpu)
+	runtime.GOMAXPROCS(runtime.NumCPU())
 	arr := fileio.ReadAdjListFromText(os.Args[1])
-	ans := GetMinCut(arr)
+	ans := GetMinCut(arr, runtime.NumCPU())
 	fmt.Println(ans)
 }

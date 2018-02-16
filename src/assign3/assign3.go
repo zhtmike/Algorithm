@@ -10,7 +10,7 @@ import (
 )
 
 // GetMinCut calculates the minimum cuts of a graph, which is not guaranteed to be the minimum
-func GetMinCut(adjlist [][]int) int {
+func GetMinCut(adjlist [][]int, threads int) int {
 	// Using concurrent threads, ref: https://stackoverflow.com/questions/24238820/parallel-for-loop
 	var wg sync.WaitGroup
 
@@ -18,12 +18,17 @@ func GetMinCut(adjlist [][]int) int {
 	trials := make([]int, repeats)
 	wg.Add(repeats)
 
-	for i := 0; i < repeats; i++ {
-		go func(i int) {
-			trials[i] = copyAndCut(adjlist)
+	// number of task per each thread
+	n := float32(repeats) / float32(threads)
+	for k := 0; k < threads; k++ {
+		go func(k int) {
 			defer wg.Done()
-		}(i)
+			for i := int(n * float32(k)); i < int(n*float32(k+1)); i++ {
+				trials[i] = copyAndCut(adjlist)
+			}
+		}(k)
 	}
+
 	wg.Wait()
 
 	// get the minimum of trials
