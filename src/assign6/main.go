@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	// arg 1 is the question 1's path , arg 2 is the question 2's
 	if len(os.Args) < 3 {
 		panic("Missing input files.")
 	}
