@@ -18,30 +18,28 @@ func TwoSum(arr []int, threads int) int {
 
 	// convert arr to hash table
 	hashTable := make(map[int]int)
-	for i, val := range arr {
-		hashTable[val] = i
+	for _, val := range arr {
+		hashTable[val]++
 	}
 
 	sum := 0
 	// number of task per each thread
-	n := (end - start ) / float32(threads)
+	n := (end - start) / float32(threads)
 	for k := 0; k < threads; k++ {
+		fmt.Println(k)
 		// each thread handle n numbers
 		go func(k int) {
 			defer wg.Done()
-            fmt.Println(k, "start: ", int(n*float32(k)) + start)
-            fmt.Println(k, "end: ", int(n*float32(k+1))+start)
-
 			for i := int(n*float32(k) + start); i < int(n*float32(k+1)+start); i++ {
-				for z, num := range arr {
-					j, ok := hashTable[i-num]
-					if ok && j != z {
+				for _, num := range arr {
+					v, ok := hashTable[i-num]
+					if ok && (num*2 != i || v > 1) {
 						mutex.Lock()
 						sum++
 						mutex.Unlock()
+						continue
 					}
 				}
-				//fmt.Println(i)
 			}
 		}(k)
 	}
