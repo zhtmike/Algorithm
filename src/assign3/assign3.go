@@ -21,8 +21,8 @@ func GetMinCut(adjlist [][]int, threads int) int {
 	// number of task per each thread
 	n := float32(repeats) / float32(threads)
 	for k := 0; k < threads; k++ {
+		defer wg.Done()
 		go func(k int) {
-			defer wg.Done()
 			for i := int(n * float32(k)); i < int(n*float32(k+1)); i++ {
 				trials[i] = copyAndCut(adjlist)
 			}
