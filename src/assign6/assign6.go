@@ -9,7 +9,7 @@ import (
 // TwoSum compute the number of elements which their sum equals to x, where -10000 <= x <= 10000
 func TwoSum(arr []int, threads int) int {
 	const start = -10000
-	const end = 10000
+	const end = 10001
 
 	// Init waitgroup and mutex
 	var wg sync.WaitGroup
@@ -24,22 +24,24 @@ func TwoSum(arr []int, threads int) int {
 
 	sum := 0
 	// number of task per each thread
-	n := (end - start) / float32(threads)
+	n := (end - start ) / float32(threads)
 	for k := 0; k < threads; k++ {
 		// each thread handle n numbers
 		go func(k int) {
 			defer wg.Done()
+            fmt.Println(k, "start: ", int(n*float32(k)) + start)
+            fmt.Println(k, "end: ", int(n*float32(k+1))+start)
 
-			for i := int(n*float32(k)) + start; i <= int(n*float32(k+1))+start; i++ {
-				for _, num := range arr {
+			for i := int(n*float32(k) + start); i < int(n*float32(k+1)+start); i++ {
+				for z, num := range arr {
 					j, ok := hashTable[i-num]
-					if ok && j != i {
+					if ok && j != z {
 						mutex.Lock()
 						sum++
 						mutex.Unlock()
 					}
 				}
-				fmt.Println(i)
+				//fmt.Println(i)
 			}
 		}(k)
 	}
