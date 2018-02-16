@@ -16,7 +16,7 @@ func GetMinCut(adjlist [][]int, threads int) int {
 
 	repeats := int(math.Log(float64(len(adjlist))) * math.Pow(float64(len(adjlist)), 2))
 	trials := make([]int, repeats)
-	wg.Add(repeats)
+	wg.Add(threads)
 
 	// number of task per each thread
 	n := float32(repeats) / float32(threads)
