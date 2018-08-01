@@ -9,7 +9,7 @@ func TestGetMinCut(t *testing.T) {
 	adjlist[1] = []int{0, 2, 3}
 	adjlist[2] = []int{0, 1, 3}
 	adjlist[3] = []int{1, 2}
-	v := GetMinCut(adjlist)
+	v := GetMinCut(adjlist, 1)
 	if v != 2 {
 		t.Error("Expected 2, got ", v)
 	}
