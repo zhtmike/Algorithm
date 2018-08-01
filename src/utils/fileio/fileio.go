@@ -1,6 +1,7 @@
 package fileio
 
 import (
+	"bufio"
 	"encoding/csv"
 	"os"
 	"strconv"
@@ -178,4 +179,47 @@ func ReadWeightedAdjListFromText(src string) graph.WAdjlist {
 		arr[i] = tmp
 	}
 	return arr
+}
+
+// ReadJobListFromText read the edge list from a txt file
+func ReadJobListFromText(src string) (int, [][]int) {
+	f, err := os.Open(src)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+
+	line := 0
+	totalNum := -1
+	var jobList [][]int
+	for scanner.Scan() {
+		text := scanner.Text()
+		tmp := make([]int, 2)
+		if line == 0 {
+			totalNum, err = strconv.Atoi(text)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			vals := strings.Split(text, " ")
+
+			tmp[0], err = strconv.Atoi(vals[0])
+			if err != nil {
+				panic(err)
+			}
+			tmp[1], err = strconv.Atoi(vals[1])
+			if err != nil {
+				panic(err)
+			}
+
+			if line == 1 {
+				jobList = make([][]int, totalNum)
+			}
+			jobList[line-1] = tmp
+		}
+		line++
+	}
+	return totalNum, jobList
 }
