@@ -174,7 +174,9 @@ func ReadWeightedAdjListFromText(src string) graph.WAdjlist {
 				panic(err)
 			}
 
-			tmp[j] = graph.WEdge{ind, weight}
+			tmp[j] = graph.WEdge{
+				Vertex: ind,
+				Weight: weight}
 		}
 		arr[i] = tmp
 	}
@@ -182,7 +184,7 @@ func ReadWeightedAdjListFromText(src string) graph.WAdjlist {
 }
 
 // ReadJobListFromText read the edge list from a txt file
-func ReadJobListFromText(src string) (int, [][]int) {
+func ReadJobListFromText(src string) [][]int {
 	f, err := os.Open(src)
 	if err != nil {
 		panic(err)
@@ -221,5 +223,5 @@ func ReadJobListFromText(src string) (int, [][]int) {
 		}
 		line++
 	}
-	return totalNum, jobList
+	return jobList
 }

@@ -10,7 +10,14 @@ func main() {
 	if len(os.Args) < 2 {
 		panic("Missing input file.")
 	}
-	arr0, arr1 := fileio.ReadJobListFromText(os.Args[1])
-	fmt.Println(arr0)
-	fmt.Println(len(arr1))
+
+	arr := fileio.ReadJobListFromText(os.Args[1])
+
+	// Question 1
+	ans := Greedy(arr, true)
+	fmt.Println(ans)
+
+	// Question 2
+	ans = Greedy(arr, false)
+	fmt.Println(ans)
 }
