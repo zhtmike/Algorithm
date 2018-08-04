@@ -8,3 +8,6 @@ type WEdge struct {
 
 // WAdjlist is a the weighted adjacent list
 type WAdjlist [][]WEdge
+
+// WAdjmap is a the weighted adjacent list stored as map
+type WAdjmap []map[int]int

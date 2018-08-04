@@ -1,12 +1,12 @@
-package main
+package vheap
 
 import "container/heap"
 
 // Node is a data structure with id and distance
 // index keeps track the position of the Node in the Heap, which is a slice of nodes.
 type Node struct {
-	id       int
-	distance int
+	ID       int
+	Distance int
 }
 
 // ============================================================
@@ -14,25 +14,25 @@ type Node struct {
 // PriorityQueue implements heap.Interface hp
 // The indices keeps track the position of the element in the heap
 type PriorityQueue struct {
-	hp      []*Node
-	indices []int
+	Hp      []*Node
+	Indices []int
 }
 
 // Len get the number of Nodes in Heap
 func (h PriorityQueue) Len() int {
-	return len(h.hp)
+	return len(h.Hp)
 }
 
 // Less compares the distance between two Nodes
 func (h PriorityQueue) Less(i, j int) bool {
-	return h.hp[i].distance < h.hp[j].distance
+	return h.Hp[i].Distance < h.Hp[j].Distance
 }
 
 // Swap swaps between two nodes
 func (h *PriorityQueue) Swap(i, j int) {
-	h.hp[i], h.hp[j] = h.hp[j], h.hp[i]
-	h.indices[h.hp[i].id] = i
-	h.indices[h.hp[j].id] = j
+	h.Hp[i], h.Hp[j] = h.Hp[j], h.Hp[i]
+	h.Indices[h.Hp[i].ID] = i
+	h.Indices[h.Hp[j].ID] = j
 }
 
 // Push insert a node into the Heap
@@ -42,16 +42,16 @@ func (h *PriorityQueue) Push(x interface{}) {
 
 // Pop pop the node with min distance
 func (h *PriorityQueue) Pop() interface{} {
-	n := len(h.hp)
-	x := h.hp[n-1]
-	h.indices[x.id] = -1
-	h.hp = h.hp[:n-1]
+	n := len(h.Hp)
+	x := h.Hp[n-1]
+	h.Indices[x.ID] = -1
+	h.Hp = h.Hp[:n-1]
 	return x
 }
 
 // Update modify the distance and keep the structure invariant
 func (h *PriorityQueue) Update(index int, distance int) {
-	x := h.hp[h.indices[index]]
-	x.distance = distance
-	heap.Fix(h, h.indices[index])
+	x := h.Hp[h.Indices[index]]
+	x.Distance = distance
+	heap.Fix(h, h.Indices[index])
 }

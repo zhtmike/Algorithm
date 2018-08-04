@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2 {
+	if len(os.Args) < 3 {
 		panic("Missing input file.")
 	}
 
@@ -19,5 +19,9 @@ func main() {
 
 	// Question 2
 	ans = Greedy(arr, false)
+	fmt.Println(ans)
+
+	arr2 := fileio.ReadWEdgeListFromText(os.Args[2])
+	ans = Prism(arr2)
 	fmt.Println(ans)
 }

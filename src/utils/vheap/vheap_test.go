@@ -1,4 +1,4 @@
-package main
+package vheap
 
 import (
 	"container/heap"
@@ -11,28 +11,28 @@ func TestHeap(t *testing.T) {
 	}
 
 	var pq PriorityQueue
-	pq.hp = make([]*Node, len(items))
-	pq.indices = make([]int, len(items))
+	pq.Hp = make([]*Node, len(items))
+	pq.Indices = make([]int, len(items))
 	for i := 0; i < len(items); i++ {
-		pq.indices[i] = i
-		pq.hp[i] = &Node{
-			id:       i,
-			distance: items[i],
+		pq.Indices[i] = i
+		pq.Hp[i] = &Node{
+			ID:       i,
+			Distance: items[i],
 		}
 	}
 	heap.Init(&pq)
 	pq.Update(2, 100)
 	x := heap.Pop(&pq).(*Node)
-	if x.id != 2 {
-		t.Error("Expected 2 got ", x.id)
+	if x.ID != 2 {
+		t.Error("Expected 2 got ", x.ID)
 	}
 	pq.Update(0, 100)
 	x = heap.Pop(&pq).(*Node)
-	if x.id != 0 {
-		t.Error("Expected 0 got ", x.id)
+	if x.ID != 0 {
+		t.Error("Expected 0 got ", x.ID)
 	}
 	x = heap.Pop(&pq).(*Node)
-	if x.id != 1 {
-		t.Error("Expected 1 got ", x.id)
+	if x.ID != 1 {
+		t.Error("Expected 1 got ", x.ID)
 	}
 }
