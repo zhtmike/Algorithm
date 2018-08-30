@@ -1,13 +1,13 @@
 # Cousera Algorithms Assignments
 
-Assignemnts implementations of Cousera course (algorihtms) by using Golang.
+Assignemnts for Cousera course: algorithms
 
 ## Details
 
 1. Course website: https://www.coursera.org/specializations/algorithms
-2. Go version: Go 1.9
+2. Go version: 1.9
 
 ## Instructions
 
-1. Export `GOPATH` to the current path
+1. Export `GOPATH` to the root path
 2. Run `make install`
