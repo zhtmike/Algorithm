@@ -6,7 +6,7 @@ import (
 )
 
 func TestUnionFind(t *testing.T) {
-	union := CreateUnionFind(5)
+	union := New(5)
 	union.Merge(1, 2)
 	union.Merge(1, 3)
 	union.Merge(0, 4)
