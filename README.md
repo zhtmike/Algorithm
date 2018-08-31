@@ -1,6 +1,6 @@
 # Cousera Algorithms Assignments
 
-Assignemnts for Cousera course: algorithms
+Assignments for Cousera course: algorithms
 
 ## Details
 
