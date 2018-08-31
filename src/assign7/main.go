@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
-	"utils/fileio"
 )
 
 func main() {
@@ -11,7 +11,10 @@ func main() {
 		panic("Missing input file.")
 	}
 
-	arr := fileio.ReadJobListFromText(os.Args[1])
+	arr, err := ReadJobListFromText(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Question 1
 	ans := Greedy(arr, true)
@@ -21,7 +24,11 @@ func main() {
 	ans = Greedy(arr, false)
 	fmt.Println(ans)
 
-	arr2 := fileio.ReadWEdgeListFromText(os.Args[2])
+	// Question 3
+	arr2, err := ReadWEdgeListFromText(os.Args[2])
+	if err != nil {
+		log.Fatal(err)
+	}
 	ans = Prism(arr2)
 	fmt.Println(ans)
 }

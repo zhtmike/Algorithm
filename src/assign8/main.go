@@ -11,6 +11,7 @@ func main() {
 		panic("Missing input file.")
 	}
 
+	// question 1
 	totalNode, edgeList, err := ReadWEdgeList(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
@@ -21,6 +22,7 @@ func main() {
 	}
 	fmt.Println(ans)
 
+	// question 2
 	bitlength, bitsList, err := ReadBitList(os.Args[2])
 	if err != nil {
 		log.Fatal(err)
