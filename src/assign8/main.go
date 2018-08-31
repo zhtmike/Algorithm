@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
-	"utils/fileio"
 )
 
 func main() {
@@ -11,7 +11,20 @@ func main() {
 		panic("Missing input file.")
 	}
 
-	totalNode, edgeList := fileio.ReadWEdgeList(os.Args[1])
-	ans := KCluster(totalNode, edgeList, 4)
+	totalNode, edgeList, err := ReadWEdgeList(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+	ans, err := KCluster(totalNode, edgeList, 4)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(ans)
+
+	bitlength, bitsList, err := ReadBitList(os.Args[2])
+	if err != nil {
+		log.Fatal(err)
+	}
+	ans = KClusterBit(bitlength, bitsList)
 	fmt.Println(ans)
 }

@@ -12,6 +12,11 @@ func (u *UnionFind) Find(id int) int {
 	return u.ids[id]
 }
 
+// Len method finds the total number of groups
+func (u *UnionFind) Len() int {
+	return len(u.sizes)
+}
+
 // Merge merges two groups where ci and cj belongs to
 func (u *UnionFind) Merge(ci int, cj int) {
 	// find the groups of ci and cj
@@ -38,9 +43,8 @@ func (u *UnionFind) Merge(ci int, cj int) {
 	}
 }
 
-// CreateUnionFind creats unionfind instance
-func CreateUnionFind(n int) UnionFind {
-	var u UnionFind
+// New creats unionfind instance
+func New(n int) (u UnionFind) {
 	u.ids = make([]int, n)
 	u.sizes = make(map[int]int)
 	u.members = make(map[int][]int)
